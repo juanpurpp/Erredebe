@@ -6,7 +6,7 @@ const es = {
 }
 
 const en = {
-  title: 'Diagram and document databases',
+  title: 'For diagram and document databases',
   description: 'A tool for clean database documentation',
   main_button: 'Get started'
 }
