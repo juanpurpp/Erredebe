@@ -8,7 +8,7 @@ const en = {
   folders_text: 'Folders',
   h1: 'Your projects in',
 }
-export default function (lang){
+export default function getTexts(lang){
   switch(lang){
     case "es": return es
     case "en": return en
