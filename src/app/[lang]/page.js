@@ -18,7 +18,7 @@ export default function Home({params}) {
               <h2 className="text-center sm:text-left text-lg font-light text-slate-800">{description}</h2>
             </div>
           </div>
-          <MainLink href={`${params.lang}/app`} label={main_button}></MainLink>
+          <MainLink href={`${params.lang}/app/projects`} label={main_button}></MainLink>
         </div>
       </div>
     </main>

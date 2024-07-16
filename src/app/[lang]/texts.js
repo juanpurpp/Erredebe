@@ -1,7 +1,7 @@
 
 const es = {
   title: 'Diagramar y documentar base de datos',
-  description: 'Una herramienta para una documentación limpia de bases de datos',
+  description: 'Una herramienta para la documentación limpia de bases de tus datos',
   main_button: 'Comenzar'
 }
 
