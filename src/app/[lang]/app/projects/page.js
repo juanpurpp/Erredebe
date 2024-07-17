@@ -29,7 +29,7 @@ export default function Page({params}) {
         <div className="flex flex-col sm:flex-row w-full items-center overflow-x-auto">
           {
             projects.map((project, index) => (
-              <Link className="flex flex-col justify-end  shrink-0 max-w-96 w-full h-64 border border-slate-200 bg-slate-100 m-4 rounded-lg p-1" key={index} href={`/${params.lang}/app/${project.id}/workspace`} >
+              <Link className="flex flex-col justify-end shrink-0 max-w-96 w-full h-64 border border-slate-200 bg-slate-100 m-4 rounded-lg p-1" key={index} href={`/${params.lang}/app/${project.id}/workspace`} >
                 <p className="text-lg text-slate-700 font-medium p-0.5">{project.title}</p>
                 <p className="text-sm font-light p-0.5">{project.description}</p>
               </Link>

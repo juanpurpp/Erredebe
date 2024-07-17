@@ -10,7 +10,7 @@ const en = {
   description: 'A tool for clean database documentation',
   main_button: 'Get started'
 }
-export default function (lang){
+export default function getTexts(lang){
   switch(lang){
     case "es": return es
     case "en": return en

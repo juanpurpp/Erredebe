@@ -1,12 +1,10 @@
 
 const es = {
-  folders_text: 'Carpetas',
-  h1: 'Tus proyectos en',
+  new_table_label: 'Nueva tabla',
 }
 
 const en = {
-  folders_text: 'Folders',
-  h1: 'Your projects in',
+  new_table_label: 'New table',
 }
 export default function getTexts(lang){
   switch(lang){
