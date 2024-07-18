@@ -32,7 +32,7 @@ function TableNode({ data, isConnectable, selected }) {
   const {tableData, setColumnData, maxLength} = useTableData()
 
   return (
-    <div className="rounded-md bg-slate-50  border border-slate-200 w-full h-full min-w-fit min-h-fit overflow-hidden">
+    <div ref={containerRef} className="rounded-md bg-slate-50  border border-slate-200 w-full h-full min-w-fit min-h-fit overflow-hidden z-0">
       <NodeResizeControl
         color="#ff0071"
         isVisible={selected}
@@ -47,7 +47,7 @@ function TableNode({ data, isConnectable, selected }) {
         position={Position.Top}
         isConnectable={isConnectable}
       />
-      <div ref={containerRef} className='bg-slate-50 p-1 flex flex-col justify-center items-center mr-6'>
+      <div  className='bg-slate-50 p-1 flex flex-col justify-center items-center mr-6'>
         
         <h3 className='text-lg text-slate-700 my-1 '>{data.name}</h3>
         <table className='table-auto w-full '>
@@ -68,7 +68,7 @@ function TableNode({ data, isConnectable, selected }) {
                       ref={col_1_ref}
                       onChange={(e) => setColumnData(index, {columnName: e.target.value, type: data.type})}
                       value={data.columnName}
-                      className='bg-slate-50 rounded-lg border border-slate-200 w-full px-1 py-0.5 font-light'
+                      className='bg-slate-50 rounded-lg border border-slate-200 w-full px-1 py-0.5 font-light focus:border-indigo-400 outline-none'
                     />
                   </td>
                   <td>
