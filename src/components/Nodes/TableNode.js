@@ -20,25 +20,19 @@ const availableOptions = [
 ]
 
 function TableNode({ data, isConnectable, selected }) {
-  const onChange = useCallback((evt) => {
-    console.log(evt.target.value);
-  }, []);
-  const [width, setWidth] = useState(15)
   const col_1_ref = useRef(null)
-  const handleDrag = (event) => {
-    console.log(event)
-  }
+
   const containerRef = useRef(null);
-  const {tableData, setColumnData, maxLength} = useTableData()
+  const {tableData, setColumnData} = useTableData()
 
   return (
-    <div ref={containerRef} className="rounded-md bg-slate-50  border border-slate-200 w-full h-full min-w-fit min-h-fit overflow-hidden z-0">
+    <div ref={containerRef} className="rounded-md bg-slate-50  border border-slate-200 w-full h-full overflow-hidden z-0">
       <NodeResizeControl
         color="#ff0071"
         isVisible={selected}
         minHeight={containerRef.current?.offsetHeight}
         maxHeight={containerRef.current?.offsetHeight}
-        minWidth={containerRef.current?.offsetWidth} 
+        minWidth={50}
       >
         <ResizeIcon />
       </NodeResizeControl>
@@ -53,8 +47,8 @@ function TableNode({ data, isConnectable, selected }) {
         <table className='table-auto w-full '>
           <thead className='text-slate-500 '>
             <tr className='my-1'>
-              <th style={{width: (maxLength)+'ch'}} className='min-w-32 text-xs font-light'>Column name</th>
-              <th className='w-fit text-xs font-light'>Type</th>
+              <th style={{width: '100%'}} className='min-w-32 text-xs font-light'>Column name</th>
+              <th className='w-fit max-w-32 text-xs font-light'>Type</th>
             </tr>
             
           </thead>
