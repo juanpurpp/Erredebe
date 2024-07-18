@@ -24,7 +24,7 @@ function TableNode({ data, isConnectable, selected }) {
 
   const containerRef = useRef(null);
   const {tableData, setColumnData} = useTableData()
-
+  console.log('tabled', tableData)
   return (
     <div ref={containerRef} className="rounded-md bg-slate-50  border border-slate-200 w-full h-full overflow-hidden z-0">
       <NodeResizeControl
@@ -68,6 +68,7 @@ function TableNode({ data, isConnectable, selected }) {
                   <td>
                     <SelectInput
                       options={availableOptions}
+                      onValueChange={(value) => setColumnData(index, {columnName: data.columnName, type: value})}
                     />
                   </td>
                 </tr>
