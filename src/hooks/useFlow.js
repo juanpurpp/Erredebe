@@ -8,15 +8,17 @@ import {
 const initialNodes = [
   {
     id: '1',
-    data: { label: 'Hello' },
-    position: { x: 0, y: 0 },
-    type: 'input',
+    data: { name: 'First Table' },
+    position: { x: -250, y: -250 },
+    type: 'table',
   },
   {
     id: '2',
-    data: { label: 'World' },
-    position: { x: 100, y: 100 },
-  },
+    data: { name: 'Table 2' },
+    position: { x: 250, y: 250 },
+    type: 'table',
+  }
+  
 ];
 
 const initialEdges = [];
@@ -41,7 +43,7 @@ const useFlow = () => {
   const createNewTable = () => {
     setNodes(nodes.concat({
       id: (nodes.length + 1).toString(),
-      data: { label: 'New Table' },
+      data: { name: 'New Table' },
       position: { x: 0, y: 0 },
       type: 'table',
     }))
