@@ -3,14 +3,22 @@ import { useState } from "react"
 const useTableData = () => {
   const [tableData, setTableData] = useState([
     {
-      columnName: 'Column name',
-      type: 'id'
+      columnName: '',
+      type: ''
     },
 
   ])
   const setColumnData = (index, data) => {
     const newData = [...tableData]
     newData[index] = data
+    setTableData(newData)
+  }
+  const addColumn = () => {
+    setTableData([...tableData, {columnName: '', type: ''}])
+  }
+  const deleteColumn = (index) => {
+    const newData = [...tableData]
+    newData.splice(index, 1)
     setTableData(newData)
   }
   const maxLength = tableData.reduce((acc, curr) => {
@@ -20,7 +28,9 @@ const useTableData = () => {
     {
       tableData,
       setColumnData,
-      maxLength
+      maxLength,
+      addColumn,
+      deleteColumn
     }
   )
 }

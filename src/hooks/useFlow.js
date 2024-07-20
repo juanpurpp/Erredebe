@@ -11,12 +11,14 @@ const initialNodes = [
     data: { name: 'First Table' },
     position: { x: -250, y: -250 },
     type: 'table',
+    dragHandle: '.custom-drag-handle',
   },
   {
     id: '2',
     data: { name: 'Table 2' },
     position: { x: 250, y: 250 },
     type: 'table',
+    dragHandle: '.custom-drag-handle',
   }
   
 ];
@@ -46,6 +48,7 @@ const useFlow = () => {
       data: { name: 'New Table' },
       position: { x: 0, y: 0 },
       type: 'table',
+      dragHandle: '.custom-drag-handle',
     }))
   }
   return (

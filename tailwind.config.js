@@ -1,3 +1,7 @@
+/*
+  Palette color: https://coolors.co/d7263d-f46036-2e294e-f7fdfd-def5f7-1b998b-c5d86d
+*/
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
