@@ -5,29 +5,12 @@ import {
   applyEdgeChanges,
   addEdge,
 } from '@xyflow/react';
-const initialNodes = [
-  {
-    id: '1',
-    data: { name: 'First Table' },
-    position: { x: -250, y: -250 },
-    type: 'table',
-    dragHandle: '.custom-drag-handle',
-  },
-  {
-    id: '2',
-    data: { name: 'Table 2' },
-    position: { x: 250, y: 250 },
-    type: 'table',
-    dragHandle: '.custom-drag-handle',
-  }
-  
-];
 
 const initialEdges = [];
 
 
-const useFlow = () => {
-  const [nodes, setNodes] = useState(initialNodes);
+const useFlow = ({initialTables}) => {
+  const [nodes, setNodes] = useState(initialTables);
   const [edges, setEdges] = useState(initialEdges);
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -46,7 +29,7 @@ const useFlow = () => {
     setNodes(nodes.concat({
       id: (nodes.length + 1).toString(),
       data: { name: 'New Table' },
-      position: { x: 0, y: 0 },
+      position: { x: (nodes.length*10 ), y:  (nodes.length*10 ) },
       type: 'table',
       dragHandle: '.custom-drag-handle',
     }))

@@ -8,8 +8,31 @@ import useFlow from "@/hooks/useFlow";
 import TableNode from "@/components/Nodes/TableNode";
 
 export default function Page({params}) {
-  const {nodes, edges, createNewTable, onConnect, onEdgesChange, onNodesChange} = useFlow()
   const langSet = getTexts(params.lang)
+  const {first_table, second_table} = langSet
+  const initialNodes = [
+    {
+      id: '1',
+      data: { name: first_table},
+      position: { x: -300, y: -300 },
+      type: 'table',
+      dragHandle: '.custom-drag-handle',
+    },
+    {
+      id: '2',
+      data: { name: second_table },
+      position: { x: 300, y: 300 },
+      type: 'table',
+      dragHandle: '.custom-drag-handle',
+    }
+    
+  ];
+  const {nodes, edges, createNewTable, onConnect, onEdgesChange, onNodesChange} = useFlow(
+    {
+      initialTables:initialNodes
+    }
+  )
+
 
   const nodeTypes = { table: TableNode };
 
