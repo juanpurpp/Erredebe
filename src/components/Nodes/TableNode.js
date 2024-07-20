@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Handle, NodeResizeControl, NodeResizer, Position, useReactFlow } from '@xyflow/react';
+import {   useRef, } from 'react';
+import { Handle,   Position, } from '@xyflow/react';
 import useTableData from '@/hooks/useTableData';
-import Select from 'react-tailwindcss-select';
 import SelectInput from '../SelectInput';
 
-const handleStyle = { left: 10 };
 import { LuRows, LuPlus, LuMinusCircle} from "react-icons/lu";
 import { Resizable } from 're-resizable';
 const availableOptions = [
@@ -20,31 +18,15 @@ const availableOptions = [
 
 ]
 
-function TableNode({ id,data, isConnectable, selected }) {
-  const {updateNode} = useReactFlow()
-
-  const col_1_ref = useRef(null)
-
-  const containerRef = useRef(null);
-  const secondaryContainerRef = useRef(null);
+function TableNode({ data, isConnectable }) {
   const {tableData, setColumnData, addColumn, deleteColumn} = useTableData()
-  const [nodeHeight, setNodeHeight] = useState(secondaryContainerRef.current?.offsetHeight)
-  console.log(id)
-  useEffect(()=>{
-    containerRef.current?.style?.setProperty('height', secondaryContainerRef.current?.offsetHeight + 'px')
-    setNodeHeight( secondaryContainerRef.current?.offsetHeight)
-
-  }
-  ,[tableData.length])
   const handleNewRow = () =>{
     addColumn()
   }
   const colRef = useRef(null)
-
-  console.log('node he', nodeHeight)
   return (
     <div  className="rounded-md bg-slate-50  border border-slate-200  overflow-hidden z-0">
-      <div ref={secondaryContainerRef}  className='bg-slate-50 p-1 flex flex-col justify-center items-center'>
+      <div className='bg-slate-50 p-1 flex flex-col justify-center items-center'>
         
         <div className='w-full grid grid-cols-3 items-center custom-drag-handle'>
           {/* add new row to table button */}
@@ -102,7 +84,6 @@ function TableNode({ id,data, isConnectable, selected }) {
                   <td>
                     <input
                       placeholder='Column name'
-                      ref={col_1_ref}
                       onChange={(e) => setColumnData(index, {columnName: e.target.value, type: data.type})}
                       value={data.columnName}
                       style={{width:colRef.current?.offsetWidth}}
