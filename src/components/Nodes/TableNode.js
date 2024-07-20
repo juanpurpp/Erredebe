@@ -3,6 +3,7 @@ import { Handle,   Position, } from '@xyflow/react';
 import useTableData from '@/hooks/useTableData';
 import SelectInput from '../SelectInput';
 
+import { useReactFlow } from '@xyflow/react';
 import { LuRows, LuPlus, LuMinusCircle} from "react-icons/lu";
 import { Resizable } from 're-resizable';
 const availableOptions = [
@@ -18,8 +19,9 @@ const availableOptions = [
 
 ]
 
-function TableNode({ data, isConnectable }) {
+function TableNode({ id,data, isConnectable }) {
   const {tableData, setColumnData, addColumn, deleteColumn} = useTableData()
+  const {updateNode} = useReactFlow()
   const handleNewRow = () =>{
     addColumn()
   }
@@ -42,6 +44,7 @@ function TableNode({ data, isConnectable }) {
               <th></th>
               <th style={{width: colRef.current?.offsetWidth}} className='text-xs font-light text-center align-center'>
                 <Resizable
+                  onResize={()=>updateNode(id)}
                   handleClasses={
                     {
                       left: 'hidden',
