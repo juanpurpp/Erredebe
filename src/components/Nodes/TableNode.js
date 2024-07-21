@@ -1,4 +1,4 @@
-import {   useRef, } from 'react';
+import {   useEffect, useRef, useState, } from 'react';
 import { Handle,   Position, } from '@xyflow/react';
 import useTableData from '@/hooks/useTableData';
 import SelectInput from '../SelectInput';
@@ -26,6 +26,12 @@ function TableNode({ id,data, isConnectable }) {
     addColumn()
   }
   const colRef = useRef(null)
+  const itemsRef = useRef([]);
+
+  useEffect(() => {
+     itemsRef.current = itemsRef.current.slice(0, tableData.length);
+  }, [tableData.length]);
+  const [colWidth, setColWidth] = useState(120)
   return (
     <div  className="rounded-md bg-slate-50  border border-slate-200  overflow-hidden z-0">
       <div className='bg-slate-50 p-1 flex flex-col justify-center items-center'>
@@ -44,7 +50,6 @@ function TableNode({ id,data, isConnectable }) {
               <th></th>
               <th style={{width: colRef.current?.offsetWidth}} className='text-xs font-light text-center align-center'>
                 <Resizable
-                  onResize={()=>updateNode(id)}
                   handleClasses={
                     {
                       left: 'hidden',
@@ -56,9 +61,13 @@ function TableNode({ id,data, isConnectable }) {
                       bottomRight: 'hidden',
                     }
                   } 
-                  minWidth={100}
+                  minWidth={115}
                   minHeight={15}
                   maxHeight={15}
+                  size={{ width: colWidth }}
+                  onResizeStop={(e, direction, ref, d) => {
+                    setColWidth(colWidth+ d.width)
+                  }}
                   className='border-r border-slate-400 h-full'
                 >
                   <div ref={colRef} className='w-full'>
@@ -75,8 +84,24 @@ function TableNode({ id,data, isConnectable }) {
           <tbody className='text-xs custom-drag-handle'>
             {
               tableData.map((data, index) => (
-                <tr key={index} className='text-xs text-slate-700'>
+                <tr ref={el => itemsRef.current[index] = el}  key={index} className='text-xs text-slate-700'>
                   <td className='content-center'>
+                    <Handle
+                      type="source"
+                      position={Position.Left}
+                      id={'left-'+index}
+                      style={{top:59+(index*(itemsRef.current[index]?.offsetHeight ?? 0))}}
+                      isConnectable={isConnectable}
+                      
+                    />
+                    <Handle
+                      type="source"
+                      position={Position.Right}
+                      id={'right-'+index}
+                      style={{top:59+(index*(itemsRef.current[index]?.offsetHeight ?? 0))}}
+                      isConnectable={isConnectable}
+                      
+                    />
                     <button
                       className='h-full flex justify-center items-center group'
                       onClick={ () => deleteColumn(index)}
@@ -98,6 +123,7 @@ function TableNode({ id,data, isConnectable }) {
                       options={availableOptions}
                       value={data.type}
                       onValueChange={(value) => setColumnData(index, {columnName: data.columnName, type: value})}
+                      placeholder={"Write or select type"}
                     />
                   </td>
                 </tr>
@@ -107,20 +133,7 @@ function TableNode({ id,data, isConnectable }) {
           </tbody>
         </table>
       </div>
-      
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="a"
-        style={{left:50}}
-        isConnectable={isConnectable}
-      />
-      <Handle
-        type="source"
-        position={Position.Bottom}
-        id="b"
-        isConnectable={isConnectable}
-      />
+    
     </div>
   );
 }
