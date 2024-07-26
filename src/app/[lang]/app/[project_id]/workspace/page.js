@@ -6,6 +6,7 @@ import Tools from "@/components/Tools";
 import '@xyflow/react/dist/style.css';
 import useFlow from "@/hooks/useFlow";
 import TableNode from "@/components/Nodes/TableNode";
+import RelationEdge from "@/components/Edges/RelationEdge";
 
 export default function Page({params}) {
   const langSet = getTexts(params.lang)
@@ -27,15 +28,28 @@ export default function Page({params}) {
     }
     
   ];
-  const {nodes, edges, createNewTable, onConnect, onEdgesChange, onNodesChange} = useFlow(
+  const { 
+    nodes,
+    edges,
+    createNewTable,
+    onConnect,
+    onEdgesChange,
+    onNodesChange,
+    onConnectStart,
+    onConnectEnd,
+    isTryingToConnect
+  } = useFlow(
     {
       initialTables:initialNodes
     }
   )
 
-
-  const nodeTypes = { table: TableNode };
-
+  const edgeTypes = {
+    relation: RelationEdge
+  };
+  const nodeTypes = {
+    table: TableNode 
+  };
 
   return (
     <div className="w-screen max-w-screen h-full flex flex-col ">
@@ -49,6 +63,9 @@ export default function Page({params}) {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
+        onConnectStart={onConnectStart}
+        onConnectEnd={onConnectEnd}
       />
     </div>
   );

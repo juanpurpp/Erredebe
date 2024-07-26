@@ -12,6 +12,7 @@ const initialEdges = [];
 const useFlow = ({initialTables}) => {
   const [nodes, setNodes] = useState(initialTables);
   const [edges, setEdges] = useState(initialEdges);
+  const [isTryingToConnect, setIsTryingToConnect] = useState(false);
   const onNodesChange = useCallback(
     (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
     [],
@@ -20,11 +21,22 @@ const useFlow = ({initialTables}) => {
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [],
   );
-
+  const connectionsOfNode = (nodeId) => edges.filter(edge => edge.target === nodeId)
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge(params, eds)),
-    [],
+    (connection) => {
+      
+      const edge = { ...connection, type: 'relation'};
+      setEdges((eds) => addEdge(edge, eds));
+      console.log('connectin', edge)
+    },
+    [edges, setEdges],
   );
+  const onConnectStart = () => {
+    setIsTryingToConnect(true);
+  };
+  const onConnectEnd= () => {
+    setIsTryingToConnect(false); 
+  }
   const createNewTable = () => {
     setNodes(nodes.concat({
       id: (nodes.length + 1).toString(),
@@ -35,7 +47,7 @@ const useFlow = ({initialTables}) => {
     }))
   }
   return (
-    {nodes,edges, createNewTable, onNodesChange, onEdgesChange, onConnect}
+    {nodes,edges, createNewTable, onNodesChange, onEdgesChange, onConnect, onConnectStart, onConnectEnd, isTryingToConnect}
   )
 }
 export default useFlow

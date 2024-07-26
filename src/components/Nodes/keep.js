@@ -34,13 +34,13 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
   const itemsRef = useRef([]);
   const [colWidth, setColWidth] = useState(120)
 
-  const edgesToThisNodeBottom = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('bottom')).concat(connection.inProgress?[{ toPosition: 'bottom' }]:[] )
-  const edgesToThisNodeTop = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('top')).concat(connection.inProgress?[{ toPosition: 'top' }]:[])
-  const edgesToThisNodeLeft = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('left')).concat(connection.inProgress?[{ toPosition: 'left' }]:[])
-  const edgesToThisNodeRight = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('right')).concat( connection.inProgress?[{ toPosition: 'right' }]:[])
+  const edgesToThisNodeBottom = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('bottom')).concat([{ toPosition: 'bottom' }] )
+  const edgesToThisNodeTop = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('top')).concat( [{ toPosition: 'top' }])
+  const edgesToThisNodeLeft = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('left')).concat([{ toPosition: 'left' }])
+  const edgesToThisNodeRight = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('right')).concat( [{ toPosition: 'right' }])
   useEffect(() => {
     updateNodeInternals(id)
-  }, [edgesToThisNode.length, connection.inProgress])
+  }, [edgesToThisNode.length])
   return (
     <div className="rounded-md bg-slate-50  border border-slate-200  overflow-hidden z-0">
       <div className='bg-slate-50 p-1 flex flex-col justify-center items-center'>
@@ -148,14 +148,14 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
 
       <>
           {
-            edgesToThisNodeBottom.map((edge, index) => (
+            edgesToThisNodeBottom.map((_, index) => (
               <Handle
                 key={index}
                 type="target"
                 position={Position.Bottom}
                 style={{
                   bottom: -15,
-                  left: (parseInt((1 / (1 + edgesToThisNodeBottom.length)) * 100) + (parseInt((1 / (1 + edgesToThisNodeBottom.length)) * 100) * index)) + "%",
+                  left: (parseInt((1 / (1 + edgesToThisNodeBottom.length)) * 100) + (parseInt((1 / (1 + 2)) * 100) * index)) + "%",
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',
@@ -164,7 +164,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 }}
                 className='bg-slate-300 cursor-none'
                 id={'bottom-' + index}
-                isConnectableEnd={edge.source ? false : true}
+                isConnectableEnd={true}
                 isConnectableStart={false}
                 onConnect={() => console.log('connected')}
               />
@@ -172,14 +172,14 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
           }
 
           {
-            edgesToThisNodeTop.map((edge, index) => (
+            edgesToThisNodeTop.map((_, index) => (
               <Handle
                 key={index}
                 type="target"
                 position={Position.Top}
                 style={{
                   top: -15,
-                  left: (parseInt((1 / (1 + edgesToThisNodeTop.length)) * 100) + (parseInt((1 / (1 + edgesToThisNodeTop.length)) * 100) * index)) + "%",
+                  left: (parseInt((1 / (1 + edgesToThisNodeTop.length)) * 100) + (parseInt((1 / (1 + 2)) * 100) * index)) + "%",
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',
@@ -188,7 +188,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 }}
                 className='bg-slate-300 cursor-none'
                 id={'top-' + index}
-                isConnectableEnd={edge.source ? false : true}
+                isConnectableEnd={true}
                 isConnectableStart={false}
                 onConnect={() => console.log('connected')}
               />
@@ -196,14 +196,14 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
           }
 
           {
-            edgesToThisNodeLeft.map((edge, index) => (
+            edgesToThisNodeLeft.map((_, index) => (
               <Handle
                 key={index}
                 type="target"
                 position={Position.Left}
                 style={{
                   left: -15,
-                  top: (parseInt((1 / (1 + edgesToThisNodeLeft.length)) * 100) + (parseInt((1 / (1 + edgesToThisNodeLeft.length)) * 100) * index)) + "%",
+                  top: (parseInt((1 / (1 + edgesToThisNodeLeft.length)) * 100) + (parseInt((1 / (1 + 2)) * 100) * index)) + "%",
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',
@@ -212,7 +212,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 }}
                 className='bg-slate-300 cursor-none'
                 id={'left-' + index}
-                isConnectableEnd={edge.source ? false : true}
+                isConnectableEnd={true}
                 isConnectableStart={false}
                 onConnect={() => console.log('connected')}
               />
@@ -220,14 +220,14 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
           }
 
           {
-            edgesToThisNodeRight.map((edge, index) => (
+            edgesToThisNodeRight.map((_, index) => (
               <Handle
                 key={index}
                 type="target"
                 position={Position.Right}
                 style={{
                   right: -15,
-                  top: (parseInt((1 / (1 + edgesToThisNodeRight.length)) * 100) + (parseInt((1 / (1 + edgesToThisNodeRight.length)) * 100) * index)) + "%",
+                  top: (parseInt((1 / (1 + edgesToThisNodeRight.length)) * 100) + (parseInt((1 / (1 + 2)) * 100) * index)) + "%",
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',
@@ -236,7 +236,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 }}
                 className='bg-slate-300 cursor-none'
                 id={'right-' + index}
-                isConnectableEnd={edge.source ? false : true}
+                isConnectableEnd={true}
                 isConnectableStart={false}
                 onConnect={() => console.log('connected')}
               />
