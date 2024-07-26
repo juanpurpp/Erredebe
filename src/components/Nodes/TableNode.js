@@ -25,11 +25,8 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
   const updateNodeInternals = useUpdateNodeInternals()
   const edges = useEdges()
   const edgesToThisNode = edges.filter(edge => edge.target === id)
-  const handleNewRow = () => {
-    addColumn()
-  }
-  const connection = useConnection();
-
+  const handleNewRow = () => addColumn()
+  const connection = useConnection()
   const colRef = useRef(null)
   const itemsRef = useRef([]);
   const [colWidth, setColWidth] = useState(120)
@@ -155,8 +152,8 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 type="target"
                 position={Position.Bottom}
                 style={{
-                  bottom: -15,
-                  left: calculateRelativePosition(edgesToThisNodeBottom.length, index),
+                  bottom: -10, //distance from node
+                  left: calculateRelativePosition(edgesToThisNodeBottom.length, index), //calculates the position of the handle and the distribution
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',
@@ -179,7 +176,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 type="target"
                 position={Position.Top}
                 style={{
-                  top: -15,
+                  top: -10,
                   left: calculateRelativePosition(edgesToThisNodeTop.length,index),
                   width: 10,
                   height: 10,
@@ -203,7 +200,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 type="target"
                 position={Position.Left}
                 style={{
-                  left: -15,
+                  left: -10,
                   top: calculateRelativePosition(edgesToThisNodeLeft.length,index),
                   width: 10,
                   height: 10,
@@ -227,7 +224,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 type="target"
                 position={Position.Right}
                 style={{
-                  right: -15,
+                  right: -10,
                   top: calculateRelativePosition(edgesToThisNodeRight.length, index),
                   width: 10,
                   height: 10,

@@ -1,7 +1,7 @@
 import { BaseEdge, getSmoothStepPath, useEdges, useNodes, useReactFlow } from '@xyflow/react';
 import { useEffect, useState } from 'react';
 
-export default function RelationEdge({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition }) {
+export default function RelationEdge({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, markerEnd }) {
   const edges = useEdges();
 
   const [edgePath] = getSmoothStepPath({
@@ -14,7 +14,7 @@ export default function RelationEdge({ id, sourceX, sourceY, targetX, targetY, s
   });
   return (
     <>
-      <BaseEdge id={id} path={edgePath} />
+      <BaseEdge id={id} path={edgePath} markerEnd={markerEnd} />
     </>
   );
 }

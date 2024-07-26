@@ -23,7 +23,13 @@ const useFlow = ({initialTables}) => {
   );
   const onConnect = useCallback(
     (connection) => {
-      const edge = { ...connection, type: 'relation'};
+      console.log(connection)
+      let marker
+      if(connection.targetHandle.startsWith('left')) marker = 'n-left-right'
+      if(connection.targetHandle.startsWith('top')) marker = 'n-top-bottom'
+      if(connection.targetHandle.startsWith('right')) marker = 'n-right-left'
+      if(connection.targetHandle.startsWith('bottom')) marker = 'n-bottom-top'
+      const edge = { ...connection, type: 'relation', markerEnd: marker};
       setEdges((eds) => addEdge(edge, eds));
     },
     [setEdges],
