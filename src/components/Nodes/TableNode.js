@@ -1,6 +1,6 @@
 //keep
 
-import { useEffect, useRef, useState, } from 'react';
+import { useCallback, useEffect, useRef, useState, } from 'react';
 import { Handle, Position, useConnection, useEdges, useUpdateNodeInternals, } from '@xyflow/react';
 import useTableData from '@/hooks/useTableData';
 import SelectInput from '../SelectInput';
@@ -38,9 +38,10 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
   const edgesToThisNodeTop = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('top')).concat(connection.inProgress?[{ toPosition: 'top' }]:[])
   const edgesToThisNodeLeft = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('left')).concat(connection.inProgress?[{ toPosition: 'left' }]:[])
   const edgesToThisNodeRight = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('right')).concat( connection.inProgress?[{ toPosition: 'right' }]:[])
+  const calculateRelativePosition = useCallback((edgesNumber,index) => (parseInt((1 / (1 + edgesNumber)) * 100) + (parseInt((1 / (1 + edgesNumber)) * 100) * index)) + "%" , [])
   useEffect(() => {
     updateNodeInternals(id)
-  }, [edgesToThisNode.length, connection.inProgress])
+  }, [edgesToThisNode.length, connection.inProgress, id, updateNodeInternals])
   return (
     <div className="rounded-md bg-slate-50  border border-slate-200  overflow-hidden z-0">
       <div className='bg-slate-50 p-1 flex flex-col justify-center items-center'>
@@ -155,7 +156,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 position={Position.Bottom}
                 style={{
                   bottom: -15,
-                  left: (parseInt((1 / (1 + edgesToThisNodeBottom.length)) * 100) + (parseInt((1 / (1 + edgesToThisNodeBottom.length)) * 100) * index)) + "%",
+                  left: calculateRelativePosition(edgesToThisNodeBottom.length, index),
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',
@@ -179,7 +180,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 position={Position.Top}
                 style={{
                   top: -15,
-                  left: (parseInt((1 / (1 + edgesToThisNodeTop.length)) * 100) + (parseInt((1 / (1 + edgesToThisNodeTop.length)) * 100) * index)) + "%",
+                  left: calculateRelativePosition(edgesToThisNodeTop.length,index),
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',
@@ -203,7 +204,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 position={Position.Left}
                 style={{
                   left: -15,
-                  top: (parseInt((1 / (1 + edgesToThisNodeLeft.length)) * 100) + (parseInt((1 / (1 + edgesToThisNodeLeft.length)) * 100) * index)) + "%",
+                  top: calculateRelativePosition(edgesToThisNodeLeft.length,index),
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',
@@ -227,7 +228,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                 position={Position.Right}
                 style={{
                   right: -15,
-                  top: (parseInt((1 / (1 + edgesToThisNodeRight.length)) * 100) + (parseInt((1 / (1 + edgesToThisNodeRight.length)) * 100) * index)) + "%",
+                  top: calculateRelativePosition(edgesToThisNodeRight.length, index),
                   width: 10,
                   height: 10,
                   backgroundColor: '#cccccc',

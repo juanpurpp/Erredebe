@@ -21,15 +21,12 @@ const useFlow = ({initialTables}) => {
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [],
   );
-  const connectionsOfNode = (nodeId) => edges.filter(edge => edge.target === nodeId)
   const onConnect = useCallback(
     (connection) => {
-      
       const edge = { ...connection, type: 'relation'};
       setEdges((eds) => addEdge(edge, eds));
-      console.log('connectin', edge)
     },
-    [edges, setEdges],
+    [setEdges],
   );
   const onConnectStart = () => {
     setIsTryingToConnect(true);
