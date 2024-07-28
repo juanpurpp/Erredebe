@@ -1,9 +1,9 @@
 //keep
 
 import { useCallback, useEffect, useRef, useState, } from 'react';
-import { Handle, Position, useConnection, useEdges, useUpdateNodeInternals, } from '@xyflow/react';
+import { Handle, Position, useConnection, useEdges, useReactFlow, useUpdateNodeInternals, } from '@xyflow/react';
 import useTableData from '@/hooks/useTableData';
-import SelectInput from '../SelectInput';
+import SelectInput from '@/components/SelectInput';
 
 import { LuRows, LuPlus, LuMinusCircle } from "react-icons/lu";
 import { Resizable } from 're-resizable';
@@ -22,25 +22,38 @@ const availableOptions = [
 
 function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsoluteY }) {
   const { tableData, setColumnData, addColumn, deleteColumn } = useTableData()
+  const {setEdges} = useReactFlow()
   const updateNodeInternals = useUpdateNodeInternals()
   const edges = useEdges()
+  
   const edgesToThisNode = edges.filter(edge => edge.target === id)
+  const edgesFromThisNode = edges.filter(edge => edge.source === id)
+  const takenHandle = (index) => edgesFromThisNode.some(edge=>edge.sourceHandle.endsWith(index))
+
   const handleNewRow = () => addColumn()
+  const handleRemoveRow = (index) => {
+    deleteColumn(index)
+    let newEdges = edges.filter(edge => edge.sourceHandle !== 'right-' + index && edge.sourceHandle !== 'left-' + index)
+    newEdges = newEdges.map((edge) => parseInt(edge.sourceHandle.split('-')[1]) >= index ? {...edge, sourceHandle: edge.sourceHandle.replace(index+1, index)} : edge)
+    setEdges(newEdges)
+    updateNodeInternals(id)
+  }
   const connection = useConnection()
   const colRef = useRef(null)
   const itemsRef = useRef([]);
   const [colWidth, setColWidth] = useState(120)
-
-  const edgesToThisNodeBottom = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('bottom')).concat(connection.inProgress?[{ toPosition: 'bottom' }]:[] )
-  const edgesToThisNodeTop = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('top')).concat(connection.inProgress?[{ toPosition: 'top' }]:[])
-  const edgesToThisNodeLeft = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('left')).concat(connection.inProgress?[{ toPosition: 'left' }]:[])
-  const edgesToThisNodeRight = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('right')).concat( connection.inProgress?[{ toPosition: 'right' }]:[])
+  const isConnectingFromThis = connection.fromNode?.id != id
+  const edgesToThisNodeBottom = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('bottom')).concat(connection.inProgress && isConnectingFromThis ?[{ toPosition: 'bottom' }]:[] )
+  const edgesToThisNodeTop = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('top')).concat(connection.inProgress && isConnectingFromThis != id ?[{ toPosition: 'top' }]:[])
+  const edgesToThisNodeLeft = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('left')).concat(connection.inProgress && isConnectingFromThis != id ?[{ toPosition: 'left' }]:[])
+  const edgesToThisNodeRight = edgesToThisNode.filter(edge => edge.targetHandle.startsWith('right')).concat( connection.inProgress && isConnectingFromThis != id ?[{ toPosition: 'right' }]:[])
   const calculateRelativePosition = useCallback((edgesNumber,index) => (parseInt((1 / (1 + edgesNumber)) * 100) + (parseInt((1 / (1 + edgesNumber)) * 100) * index)) + "%" , [])
   useEffect(() => {
     updateNodeInternals(id)
   }, [edgesToThisNode.length, connection.inProgress, id, updateNodeInternals])
+
   return (
-    <div className="rounded-md bg-slate-50  border border-slate-200  overflow-hidden z-0">
+    <div className="rounded-lg bg-slate-50  border border-slate-200  overflow-hidden z-0">
       <div className='bg-slate-50 p-1 flex flex-col justify-center items-center'>
 
         <div className='w-full grid grid-cols-3 items-center custom-drag-handle'>
@@ -97,8 +110,15 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                       type="souce"
                       position={Position.Left}
                       id={'left-' + index}
-                      style={{ top: 59 + (index * (itemsRef.current[index]?.offsetHeight ?? 0)) }}
-                      isConnectable={isConnectable}
+                      style={
+                        { 
+                          top: 59 + (index * (itemsRef.current[index]?.offsetHeight ?? 0)),
+                          left: -5,
+                          opacity: takenHandle(index) ? 0.1 : 1,
+                          visibility: connection.inProgress ? 'hidden' : 'visible',
+                        }
+                      }
+                      isConnectableStart={!takenHandle(index)}
                       isConnectableEnd={false}
 
                     />
@@ -106,13 +126,21 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                       type="source"
                       position={Position.Right}
                       id={'right-' + index}
-                      style={{ top: 59 + (index * (itemsRef.current[index]?.offsetHeight ?? 0)) }}
-                      isConnectable={isConnectable}
+                      style={
+                        {
+                          top: 59 + (index * (itemsRef.current[index]?.offsetHeight ?? 0)),
+                          right: -5,
+                          opacity: takenHandle(index) ? 0.1 : 1,
+                          visibility: connection.inProgress ? 'hidden' : 'visible',
+                        }
+                      }
+                      isConnectableStart={!takenHandle(index)}
                       isConnectableEnd={false}
+
                     />
                     <button
                       className='h-full flex justify-center items-center group'
-                      onClick={() => deleteColumn(index)}
+                      onClick={()=>handleRemoveRow(index)}
                     >
                       <LuMinusCircle className='text-slate-300 w-4 h-4 align-middle group-hover:text-red-400 group-active:text-rose-500 '></LuMinusCircle>
                     </button>
@@ -156,11 +184,11 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                   left: calculateRelativePosition(edgesToThisNodeBottom.length, index), //calculates the position of the handle and the distribution
                   width: 10,
                   height: 10,
-                  backgroundColor: '#cccccc',
+                  backgroundColor: '#e0e7ff',
                   cursor: 'none',
                   opacity: connection.inProgress ? 1 : 0,
                 }}
-                className='bg-slate-300 cursor-none'
+                className='cursor-none hover:border hover:border-blue-400 '
                 id={'bottom-' + index}
                 isConnectableEnd={edge.source ? false : true}
                 isConnectableStart={false}
@@ -180,11 +208,11 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                   left: calculateRelativePosition(edgesToThisNodeTop.length,index),
                   width: 10,
                   height: 10,
-                  backgroundColor: '#cccccc',
+                  backgroundColor: '#e0e7ff',
                   cursor: 'none',
                   opacity: connection.inProgress ? 1 : 0,
                 }}
-                className='bg-slate-300 cursor-none'
+                className='cursor-none hover:border hover:border-blue-400 '
                 id={'top-' + index}
                 isConnectableEnd={edge.source ? false : true}
                 isConnectableStart={false}
@@ -204,11 +232,11 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                   top: calculateRelativePosition(edgesToThisNodeLeft.length,index),
                   width: 10,
                   height: 10,
-                  backgroundColor: '#cccccc',
+                  backgroundColor: '#e0e7ff',
                   cursor: 'none',
-                  opacity: connection.inProgress ?1 : 0,
+                  opacity: connection.inProgress ? 1 : 0,
                 }}
-                className='bg-slate-300 cursor-none'
+                className='cursor-none hover:border hover:border-blue-400 '
                 id={'left-' + index}
                 isConnectableEnd={edge.source ? false : true}
                 isConnectableStart={false}
@@ -228,11 +256,11 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                   top: calculateRelativePosition(edgesToThisNodeRight.length, index),
                   width: 10,
                   height: 10,
-                  backgroundColor: '#cccccc',
+                  backgroundColor: '#e0e7ff',
                   cursor: 'none',
                   opacity: connection.inProgress ? 1 : 0,
                 }}
-                className='bg-slate-300 cursor-none'
+                className='cursor-none hover:border hover:border-blue-400 '
                 id={'right-' + index}
                 isConnectableEnd={edge.source ? false : true}
                 isConnectableStart={false}

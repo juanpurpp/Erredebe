@@ -8,7 +8,6 @@ import {
 
 const initialEdges = [];
 
-
 const useFlow = ({initialTables}) => {
   const [nodes, setNodes] = useState(initialTables);
   const [edges, setEdges] = useState(initialEdges);
@@ -24,12 +23,17 @@ const useFlow = ({initialTables}) => {
   const onConnect = useCallback(
     (connection) => {
       console.log(connection)
-      let marker
-      if(connection.targetHandle.startsWith('left')) marker = 'n-left-right'
-      if(connection.targetHandle.startsWith('top')) marker = 'n-top-bottom'
-      if(connection.targetHandle.startsWith('right')) marker = 'n-right-left'
-      if(connection.targetHandle.startsWith('bottom')) marker = 'n-bottom-top'
-      const edge = { ...connection, type: 'relation', markerEnd: marker};
+      let markerStart
+      let markerEnd
+      if(connection.sourceHandle.startsWith('left')) markerStart = 'n-left-right'
+      if(connection.sourceHandle.startsWith('top')) markerStart = 'n-top-bottom'
+      if(connection.sourceHandle.startsWith('right')) markerStart = 'n-right-left'
+      if(connection.sourceHandle.startsWith('bottom')) markerStart = 'n-bottom-top'
+      if(connection.targetHandle.startsWith('left')) markerEnd = 'one-horizontal'
+      if(connection.targetHandle.startsWith('top')) markerEnd = 'one-vertical'
+      if(connection.targetHandle.startsWith('right')) markerEnd = 'one-horizontal-from-right'
+      if(connection.targetHandle.startsWith('bottom')) markerEnd = 'one-vertical-from-down'
+      const edge = { ...connection, type: 'relation', markerStart: markerStart, markerEnd: markerEnd };
       setEdges((eds) => addEdge(edge, eds));
     },
     [setEdges],
