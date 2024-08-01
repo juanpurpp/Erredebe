@@ -1,25 +1,22 @@
 import { useReactFlow } from "@xyflow/react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
-const useTableData = (id) => {
+//table data is considered the array of columns and types
+const defaultInitialTableData = [
+  {
+    columnName: '',
+    type: ''
+  },
+]
+const useTableData = (id, initialTableData) => {
   const {updateNodeData} = useReactFlow()
-  const [tableData, setTableData] = useState([
-    {
-      columnName: '',
-      type: ''
-    },
-
-  ])
-  const changeTableName = (newName) => {
-    updateNodeData(
-      id,
-      (data)=>!console.log('chang to', data)&&(
-        {
-          ...data,
-          name: newName
-        }
-      )
-    )
+  const [tableData, setTableData] = useState(initialTableData ?? defaultInitialTableData)
+  //Forcing updates of table data to react flow store
+  useEffect(() => {
+    updateNodeData( id,{tableData})
+  }, [tableData])
+  const changeTableName = (name) => {
+    updateNodeData(id,{ name } )
   }
   const setColumnData = (index, data) => {
     const newData = [...tableData]
@@ -37,7 +34,7 @@ const useTableData = (id) => {
   const maxLength = tableData.reduce((acc, curr) => {
     return curr.columnName.length > acc ? curr.columnName.length : acc
   }, 0)
-
+  useEffect
   return (
     {
       tableData,

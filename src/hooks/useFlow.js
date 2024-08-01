@@ -8,6 +8,13 @@ import {
 
 const initialEdges = [];
 
+const defaultInitialTableData = [
+  {
+    columnName: '',
+    type: ''
+  },
+]
+
 const useFlow = ({initialTables}) => {
   const [nodes, setNodes] = useState(initialTables);
   const [edges, setEdges] = useState(initialEdges);
@@ -47,7 +54,7 @@ const useFlow = ({initialTables}) => {
   const createNewTable = () => {
     setNodes(nodes.concat({
       id: (nodes.length + 1).toString(),
-      data: { name: 'New Table' },
+      data: { name: 'New Table', tableData: defaultInitialTableData },
       position: { x: (nodes.length*10 ), y:  (nodes.length*10 ) },
       type: 'table',
       dragHandle: '.custom-drag-handle',

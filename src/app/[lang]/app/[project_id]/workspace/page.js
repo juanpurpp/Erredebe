@@ -8,20 +8,28 @@ import useFlow from "@/hooks/useFlow";
 import TableNode from "@/components/Nodes/TableNode";
 import RelationEdge from "@/components/Edges/RelationEdge";
 
+const defaultInitialTableData = [
+  {
+    columnName: '',
+    type: ''
+  },
+
+]
+
 export default function Page({params}) {
   const langSet = getTexts(params.lang)
   const {first_table, second_table} = langSet
   const initialNodes = [
     {
       id: '1',
-      data: { name: first_table},
+      data: { name: first_table, tableData: defaultInitialTableData },
       position: { x: -300, y: -300 },
       type: 'table',
       dragHandle: '.custom-drag-handle',
     },
     {
       id: '2',
-      data: { name: second_table },
+      data: { name: second_table, tableData: defaultInitialTableData },
       position: { x: 300, y: 300 },
       type: 'table',
       dragHandle: '.custom-drag-handle',

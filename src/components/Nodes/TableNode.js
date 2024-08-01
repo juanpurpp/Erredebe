@@ -25,7 +25,8 @@ const availableOptions = [
 ]
 
 function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsoluteY }) {
-  const { tableData, setColumnData, addColumn, deleteColumn, changeTableName } = useTableData(id)
+  const { tableData } = data
+  const { setColumnData, addColumn, deleteColumn, changeTableName } = useTableData(id, tableData)
   const { setEdges } = useReactFlow()
   const updateNodeInternals = useUpdateNodeInternals()
   const edges = useEdges()
@@ -60,15 +61,15 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
     <div className="rounded-lg bg-slate-50  border border-slate-200  overflow-hidden z-0">
       <div className='bg-slate-50 p-1 flex flex-col justify-center items-center'>
 
-        <div className='w-full grid grid-cols-3 items-center custom-drag-handle'>
+        <div className='w-full flex flex-row justify-between items-center custom-drag-handle space-x-4'>
           {/* add new row to table button */}
-          <button onClick={handleNewRow} className='w-fit flex flex-row justify-start items-center rounded-md bg-zinc-100 border border-zinc-200 hover:bg-zinc-200 hover:border-indigo-100 active:bg-zinc-300 p-0.5'>
+          <button onClick={handleNewRow} className='self-start w-1/6 flex flex-row justify-start items-center rounded-md bg-zinc-100 border border-zinc-200 hover:bg-zinc-200 hover:border-indigo-100 active:bg-zinc-300 p-0.5'>
             <LuRows className='text-slate-500' />
             <LuPlus className='text-slate-500' />
           </button>
           {
             !isChangingNameActive ? (
-              <h1 onDoubleClick={() => setIsChangingNameActive(true)} className='text-center col-span-2 w-2/3 text-nowrap cursor-text'>{data.name}</h1>
+              <h1 onDoubleClick={() => setIsChangingNameActive(true)} className='text-center text-nowrap cursor-text'>{data.name}</h1>
             ) : (
               <input
                 autoFocus={isChangingNameActive}
@@ -79,10 +80,11 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
                   if(data.name === '') changeTableName(default_table_name)
                   setIsChangingNameActive(false)
                 }}
-                className='bg-slate-50 rounded-lg border text-sm text-slate-700 border-slate-200  px-1 font-light focus:border-indigo-400 outline-none w-2/3 col-span-2'
+                className='bg-slate-50 rounded-lg border text-sm text-slate-700 border-slate-200  px-1 font-light focus:border-indigo-400 outline-none'
               />
             )
           }
+          <div className='opacity-0 w-1/6'>_</div>
 
 
         

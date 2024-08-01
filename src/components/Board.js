@@ -154,7 +154,7 @@ const oneHorizontal = (
           <path
             transform="translate(10 10)"
             fill="none"
-            stroke="#000"
+            stroke="#334155"
             strokeWidth={2}
             d="M0 -10L0 10"
           />
@@ -182,7 +182,7 @@ const oneVertical = (
           <path
             transform="translate(10 10)"
             fill="none"
-            stroke="#000"
+            stroke="#334155"
             strokeWidth={2}
             d="M0 -10L0 10"
           />
@@ -211,7 +211,7 @@ const oneVerticalFromDown = (
           <path
             transform="translate(10 10)"
             fill="none"
-            stroke="#000"
+            stroke="#334155"
             strokeWidth={2}
             d="M0 -10L0 10"
           />
@@ -240,7 +240,7 @@ const oneHorizontalFromRight = (
           <path
             transform="translate(10 10)"
             fill="none"
-            stroke="#000"
+            stroke="#334155"
             strokeWidth={2}
             d="M0 -10L0 10"
           />
