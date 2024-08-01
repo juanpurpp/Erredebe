@@ -41,7 +41,6 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
     let newEdges = edges.filter(edge => edge.sourceHandle !== 'right-' + index && edge.sourceHandle !== 'left-' + index)
     newEdges = newEdges.map((edge) => parseInt(edge.sourceHandle.split('-')[1]) >= index ? { ...edge, sourceHandle: edge.sourceHandle.replace(index + 1, index) } : edge)
     setEdges(newEdges)
-    updateNodeInternals(id)
   }
   const connection = useConnection()
   const colRef = useRef(null)
@@ -69,7 +68,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
           </button>
           {
             !isChangingNameActive ? (
-              <h1 onDoubleClick={() => setIsChangingNameActive(true)} className='text-center col-span-2 w-2/3 text-nowrap'>{data.name}</h1>
+              <h1 onDoubleClick={() => setIsChangingNameActive(true)} className='text-center col-span-2 w-2/3 text-nowrap cursor-text'>{data.name}</h1>
             ) : (
               <input
                 autoFocus={isChangingNameActive}
