@@ -22,6 +22,7 @@ export async function GET(request) {
     return NextResponse.redirect(request.nextUrl.origin + `/${acceptedLang}/app/projects`)
   }
   catch(error){
+    console.error('SERVER ERROR', error)
     return NextResponse.json({ error: 'SERVER ERROR' }, { status: 500 })
   }
 
