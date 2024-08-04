@@ -1,3 +1,5 @@
+"use client"
+
 import getGoogleAuthUrl from "@/utils/getGoogleAuthUrl"
 import Link from "next/link"
 
