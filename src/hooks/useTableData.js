@@ -14,7 +14,7 @@ const useTableData = (id, initialTableData) => {
   //Forcing updates of table data to react flow store
   useEffect(() => {
     updateNodeData( id,{tableData})
-  }, [tableData])
+  }, [tableData, updateNodeData, id])
   const changeTableName = (name) => {
     updateNodeData(id,{ name } )
   }

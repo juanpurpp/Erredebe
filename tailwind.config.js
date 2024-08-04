@@ -20,6 +20,9 @@ module.exports = {
       },
       colors: {
         light_background: "#F7FDFD",
+        light_green: "#F1F6DB",
+        orange: "#f46036",
+        dark_orange: "#D7441B"
       }
     },
   },
