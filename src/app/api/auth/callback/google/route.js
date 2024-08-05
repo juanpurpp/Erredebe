@@ -1,4 +1,4 @@
-import { getGoogleTokens, createNewToken } from "@/services/User"
+import { getGoogleTokens, createNewToken, newUserVerification } from "@/services/User"
 import getAcceptedLang from "@/utils/getAcceptedLang"
 import { decode } from "jsonwebtoken"
 import { headers, cookies } from "next/headers"
@@ -15,10 +15,9 @@ export async function GET(request, params) {
     const decodedToken = decode(id_token)
     const acceptedLang = lang ?? getAcceptedLang(languageHeader)
     if (!decodedToken.email_verified) return NextResponse.redirect(request.nextUrl.origin + `/${acceptedLang}/auth/error/not-verified`)
-    cookies().set('token', createNewToken({
-      email: 'correo.juanm.sandoval@gmail.com',
-      email_verified: true,
-    }))
+    const user = await newUserVerification({ email: decodedToken.email }, lang)
+    console.log('result', user)
+    cookies().set('token', createNewToken(user))
     return NextResponse.redirect(request.nextUrl.origin + `/${acceptedLang}/app/projects`)
   }
   catch(error){

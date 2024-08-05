@@ -1,6 +1,7 @@
+import prisma from "@/prisma/db"
 import axios from "axios"
 import { sign } from "jsonwebtoken"
-import { redirect } from "next/dist/server/api-utils"
+import getTexts from "./texts"
 
 const google_client_id = process.env.GOOGLE_CLIENT_ID
 const google_client_secret = process.env.GOOGLE_CLIENT_SECRET
@@ -29,7 +30,39 @@ const getGoogleTokens = async (code) => {
 
 const createNewToken = (data) => sign(data, process.env.JWT_SECRET, { expiresIn: '7d' })
 
+const newUserVerification = async ({email}, lang='en') => {
+  const {folder_default_title, folder_default_description} = getTexts(lang)
+  try{
+    const resultantUser = await prisma.$transaction(async (tx) => {
+      let user = await tx.user.findUnique({
+        where:{
+          email
+        }
+      })
+      if(user === null){
+        //create new user
+        user = await tx.user.create({
+          data:{
+            email,
+            folders:{
+              create:[
+                {name: folder_default_title, description: folder_default_description}
+              ]
+            }
+          },
+        })
+      }
+      return user
+    })
+    return resultantUser
+  }catch(error){
+    console.error('ERROR WHILE VERIFYING NEW USER', error)
+    return null
+  }
+}
+
 export {
   getGoogleTokens,
-  createNewToken
+  createNewToken,
+  newUserVerification
 }
