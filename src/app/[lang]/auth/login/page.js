@@ -11,7 +11,7 @@ export default async function Page({ params }) {
       <h1 className="text-3xl font-medium text-sky-950">{h1_title}</h1>
       <div className="flex flex-col space-y-4 items-stretch w-96 px-4">
         <LoginLink icon={<FaGoogle/>} >{login_with_google}</LoginLink>
-        <LoginLink  icon={<FaApple/>} >{login_with_apple}</LoginLink>
+        <LoginLink icon={<FaApple/>} >{login_with_apple}</LoginLink>
       </div>
     </div>
   );
