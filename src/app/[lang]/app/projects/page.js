@@ -12,6 +12,7 @@ import { HiFolder } from "react-icons/hi";
 import NewProjectForm from "@/components/NewProjectForm";
 import { createNewProject } from "@/queries/projects";
 import { useRouter } from "next/navigation";
+import LoadingMessage from "@/components/LoadingMessage";
 
 export default function Page({ params }) {
   const router = useRouter();
@@ -95,11 +96,8 @@ export default function Page({ params }) {
   return (
     <div className="w-screen max-w-screen h-full flex flex-col sm:flex-row">
       {
-        newProjectMutation.isPending || redirecting? (
-          <div className="w-full h-full flex flex-col justify-center items-center space-y-2">
-            <Loading className="w-6 h-6" />
-            <p className="font-light text-md text-slate-700">{redirecting ? redirecting_message : creating_new_project}</p>
-          </div>
+        newProjectMutation.isPending || redirecting? ( 
+          <LoadingMessage>{redirecting ? redirecting_message : creating_new_project}</LoadingMessage>
         ) : (
           <>
             <div className="flex flex-row flex-nowrap items-center sm:flex-col border-r border-slate-200 bg-slate-100 w-full h-24 sm:min-w-64 sm:w-1/6 sm:h-full px-4 py-6 space-x-3 sm:space-x-0 sm:space-y-3 overflow-x-auto sm:overflow-y-auto ">

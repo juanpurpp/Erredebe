@@ -4,6 +4,7 @@ const es = {
   first_table: 'Primera tabla',
   second_table: 'Segunda tabla',
   column_label: 'Nombre columna',
+  loading_project: 'Cargando proyecto',
 }
 
 const en = {
@@ -11,6 +12,7 @@ const en = {
   first_table: 'First table',
   second_table: 'Second table',
   column_label: 'Column name',
+  loading_project: 'Loading project',
 }
 export default function getTexts(lang){
   switch(lang){
