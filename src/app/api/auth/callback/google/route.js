@@ -16,7 +16,6 @@ export async function GET(request, params) {
     const acceptedLang = lang ?? getAcceptedLang(languageHeader)
     if (!decodedToken.email_verified) return NextResponse.redirect(request.nextUrl.origin + `/${acceptedLang}/auth/error/not-verified`)
     const user = await newUserVerification({ email: decodedToken.email }, lang)
-    console.log('result', user)
     cookies().set('token', createNewToken(user), {sameSite:'lax', path:'/', expires: '7d', maxAge: '7d', })
     return NextResponse.redirect(request.nextUrl.origin + `/${acceptedLang}/app/projects`)
   }

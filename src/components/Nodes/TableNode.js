@@ -218,7 +218,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
           id={'bottom-' + index}
           isConnectableEnd={edge.source ? false : true}
           isConnectableStart={false}
-          onConnect={() => console.log('connected')}
+          //onConnect={() => console.log('connected')}
         />
       ))
     }
@@ -242,7 +242,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
           id={'top-' + index}
           isConnectableEnd={edge.source ? false : true}
           isConnectableStart={false}
-          onConnect={() => console.log('connected')}
+          //onConnect={() => console.log('connected')}
         />
       ))
     }
@@ -266,7 +266,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
           id={'left-' + index}
           isConnectableEnd={edge.source ? false : true}
           isConnectableStart={false}
-          onConnect={() => console.log('connected')}
+          //onConnect={() => console.log('connected')}
         />
       ))
     }
@@ -290,7 +290,7 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
           id={'right-' + index}
           isConnectableEnd={edge.source ? false : true}
           isConnectableStart={false}
-          onConnect={() => console.log('connected')}
+          //onConnect={() => console.log('connected')}
         />
       ))
     }

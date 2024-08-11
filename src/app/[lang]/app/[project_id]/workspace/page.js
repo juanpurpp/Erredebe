@@ -19,6 +19,7 @@ const defaultInitialTableData = [
 export default function Page({params}) {
   const langSet = getTexts(params.lang)
   const {first_table, second_table} = langSet
+  
   const initialNodes = [
     {
       id: '1',
@@ -45,7 +46,8 @@ export default function Page({params}) {
     onNodesChange,
     onConnectStart,
     onConnectEnd,
-    isTryingToConnect
+    setNodes,
+    setEdges
   } = useFlow(
     {
       initialTables:initialNodes

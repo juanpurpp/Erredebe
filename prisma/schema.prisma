@@ -17,7 +17,7 @@ model User {
 }
 
 model Folder {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   name        String
   description String?
   userId      String
@@ -28,11 +28,11 @@ model Folder {
 }
 
 model Project {
-  id          Int      @id @default(autoincrement())
+  id          String   @id @default(uuid())
   name        String
   description String?
   structure   Json
-  folderId    Int
+  folderId    String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   folder      Folder   @relation(fields: [folderId], references: [id])

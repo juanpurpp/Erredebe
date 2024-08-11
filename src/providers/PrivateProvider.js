@@ -5,7 +5,7 @@ const PrivateProvider = ({children, params}) => {
   const {lang} = params
   const {expired, invalid} = useSession()
   if(invalid) redirect(`/${lang}/auth/login`)
-  if(!invalid && expired) console.log('EXPIRED TOKEN')
+  //if(!invalid && expired) console.log('EXPIRED TOKEN')
   return <>{children}</>
 }
 export default PrivateProvider

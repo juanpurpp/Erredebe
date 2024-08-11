@@ -8,7 +8,8 @@ export const metadata = {
   description: "Tu herramienta favorita para documentar y crear esquemas limpios de tu base de datos ",
 };
 
-export default function RootLayout({ children, params }) {
+export default async function RootLayout({ children, params }) {
+
   return (
     <html lang={params.lang}>
       <body className={inter.className}>{children}</body>

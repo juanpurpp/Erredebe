@@ -29,7 +29,6 @@ const useFlow = ({initialTables}) => {
   );
   const onConnect = useCallback(
     (connection) => {
-      console.log(connection)
       let markerStart
       let markerEnd
       if(connection.sourceHandle.startsWith('left')) markerStart = 'n-left-right'
@@ -61,7 +60,7 @@ const useFlow = ({initialTables}) => {
     }))
   }
   return (
-    {nodes,edges, createNewTable, onNodesChange, onEdgesChange, onConnect, onConnectStart, onConnectEnd, isTryingToConnect}
+    {nodes,edges, setNodes, setEdges, createNewTable, onNodesChange, onEdgesChange, onConnect, onConnectStart, onConnectEnd, isTryingToConnect}
   )
 }
 export default useFlow
