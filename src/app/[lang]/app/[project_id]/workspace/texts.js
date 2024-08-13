@@ -5,6 +5,7 @@ const es = {
   second_table: 'Segunda tabla',
   column_label: 'Nombre columna',
   loading_project: 'Cargando proyecto',
+  forbidden_message: 'No tienes permisos para ver este proyecto',
 }
 
 const en = {
@@ -13,6 +14,7 @@ const en = {
   second_table: 'Second table',
   column_label: 'Column name',
   loading_project: 'Loading project',
+  forbidden_message: 'You do not have permission to view this project',
 }
 export default function getTexts(lang){
   switch(lang){

@@ -1,5 +1,5 @@
 "use client"
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import {
   applyNodeChanges,
   applyEdgeChanges,
@@ -15,18 +15,29 @@ const defaultInitialTableData = [
   },
 ]
 
-const useFlow = ({initialTables}) => {
+const useFlow = ({initialTables, onStructureChange=()=>{}, isOnStructureChangeEnable=true}) => {
   const [nodes, setNodes] = useState(initialTables);
   const [edges, setEdges] = useState(initialEdges);
   const [isTryingToConnect, setIsTryingToConnect] = useState(false);
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    (changes) =>setNodes((nds) => applyNodeChanges(changes, nds))
+    ,
     [],
   );
   const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    (changes) =>setEdges((eds) => applyEdgeChanges(changes, eds)),
     [],
   );
+  const nodesString = JSON.stringify(nodes), edgesString = JSON.stringify(edges)
+  const timerRef = useRef(null)
+  useEffect(()=>{
+    timerRef.current = setTimeout(() => onStructureChange({nodes: JSON.parse(nodesString), edges: JSON.parse(edgesString)}), 500);
+
+    return () => {
+      clearTimeout(timerRef.current);
+    };
+    
+  },[nodesString, edgesString, onStructureChange])
   const onConnect = useCallback(
     (connection) => {
       let markerStart
@@ -53,7 +64,7 @@ const useFlow = ({initialTables}) => {
   const createNewTable = () => {
     setNodes(nodes.concat({
       id: (nodes.length + 1).toString(),
-      data: { name: 'New Table', tableData: defaultInitialTableData },
+      data: { name: 'New Table', tableData: defaultInitialTableData, colWidth:120 },
       position: { x: (nodes.length*10 ), y:  (nodes.length*10 ) },
       type: 'table',
       dragHandle: '.custom-drag-handle',

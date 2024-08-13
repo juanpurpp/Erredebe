@@ -78,7 +78,7 @@ export default function Page({ params }) {
     () => {
       currentFolder === null && folders && setCurrentFolder(folders[0].id)
     }
-    , [folders?.length]
+    , [folders?.length, currentFolder, folders]
   )
   const [isCreatingNewProject, setIsCreatingNewProject] = useState(false)
   const onClickFolder = (id) => {

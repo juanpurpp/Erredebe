@@ -34,7 +34,9 @@ const useTableData = (id, initialTableData) => {
   const maxLength = tableData.reduce((acc, curr) => {
     return curr.columnName.length > acc ? curr.columnName.length : acc
   }, 0)
-  useEffect
+  const setColWidth = (newWidth) => { 
+    updateNodeData(id,{colWidth: newWidth})
+  }
   return (
     {
       tableData,
@@ -42,7 +44,8 @@ const useTableData = (id, initialTableData) => {
       maxLength,
       addColumn,
       deleteColumn,
-      changeTableName
+      changeTableName,
+      setColWidth
     }
   )
 }
