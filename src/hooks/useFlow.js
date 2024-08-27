@@ -31,7 +31,7 @@ const useFlow = ({initialTables, onStructureChange=()=>{}, isOnStructureChangeEn
   const nodesString = JSON.stringify(nodes), edgesString = JSON.stringify(edges)
   const timerRef = useRef(null)
   useEffect(()=>{
-    timerRef.current = setTimeout(() => onStructureChange({nodes: JSON.parse(nodesString), edges: JSON.parse(edgesString)}), 500);
+    timerRef.current = setTimeout(() => onStructureChange({nodes: JSON.parse(nodesString), edges: JSON.parse(edgesString)}), 200);
 
     return () => {
       clearTimeout(timerRef.current);

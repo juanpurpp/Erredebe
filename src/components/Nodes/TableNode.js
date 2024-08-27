@@ -60,9 +60,9 @@ function TableNode({ id, data, isConnectable, positionAbsoluteX, positionAbsolut
     <div className="rounded-lg bg-slate-50  border border-slate-200  overflow-hidden z-0">
       <div className='bg-slate-50 p-1 flex flex-col justify-center items-center'>
 
-        <div className='w-full flex flex-row justify-between items-center custom-drag-handle space-x-4'>
+        <div className='w-full flex flex-row justify-between items-center custom-drag-handle space-x-4 group'>
           {/* add new row to table button */}
-          <button onClick={handleNewRow} className='self-start w-1/6 flex flex-row justify-start items-center rounded-md bg-zinc-100 border border-zinc-200 hover:bg-zinc-200 hover:border-indigo-100 active:bg-zinc-300 p-0.5'>
+          <button onClick={handleNewRow} className={` self-start w-1/6 flex flex-row justify-center items-center rounded-md bg-zinc-100 border border-zinc-200 hover:bg-zinc-200 hover:border-indigo-100 active:bg-zinc-300 p-0.5`}>
             <LuRows className='text-slate-500' />
             <LuPlus className='text-slate-500' />
           </button>

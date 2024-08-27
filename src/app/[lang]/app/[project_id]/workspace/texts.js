@@ -6,6 +6,8 @@ const es = {
   column_label: 'Nombre columna',
   loading_project: 'Cargando proyecto',
   forbidden_message: 'No tienes permisos para ver este proyecto',
+  is_saving: 'Guardando',
+  saved_correctly: 'Guardado correctamente',
 }
 
 const en = {
@@ -15,6 +17,8 @@ const en = {
   column_label: 'Column name',
   loading_project: 'Loading project',
   forbidden_message: 'You do not have permission to view this project',
+  is_saving: 'Saving',
+  saved_correctly: 'Saved correctly',
 }
 export default function getTexts(lang){
   switch(lang){
